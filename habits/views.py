@@ -3,7 +3,9 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 
 from habits.models import Habit
 from habits.paginators import HabitUserListPagination
+from habits.permissions import IsOwner
 from habits.serializers import HabitSerializer, HabitCreateSerializer
+from habits.services import send_tg_habit_notification
 
 
 class HabitCreateAPIView(CreateAPIView):
@@ -53,7 +55,7 @@ class HabitRetrieveAPIView(RetrieveAPIView):
     Получение пользователя
     """
     queryset = Habit.objects.all()
-    permission_classes = [IsAuthenticated] # todo: добавить права доступа для владельца привычки и админа
+    permission_classes = [IsOwner | IsAdminUser]
     serializer_class = HabitSerializer
 
 class HabitUpdateAPIView(UpdateAPIView):
@@ -61,7 +63,7 @@ class HabitUpdateAPIView(UpdateAPIView):
     Обновление пользователя
     """
     queryset = Habit.objects.all()
-    permission_classes = [IsAuthenticated] # todo: добавить права доступа для владельца привычки и админа
+    permission_classes = [IsOwner | IsAdminUser]
     serializer_class = HabitCreateSerializer
 
 class HabitDeleteAPIView(DestroyAPIView):
@@ -69,9 +71,5 @@ class HabitDeleteAPIView(DestroyAPIView):
     Удаление пользователя
     """
     queryset = Habit.objects.all()
-    permission_classes = [IsAuthenticated] # todo: добавить права доступа для владельца привычки и админа
+    permission_classes = [IsOwner | IsAdminUser]
     serializer_class = HabitSerializer
-
-
-
-

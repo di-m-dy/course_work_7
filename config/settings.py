@@ -154,4 +154,4 @@ SIMPLE_JWT = {
     "UPDATE_LAST_LOGIN": True,
 }
 
-TG_ID = os.getenv('TG_ID')
+TG_TOKEN = os.getenv('TG_ID')

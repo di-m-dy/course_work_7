@@ -10,7 +10,7 @@ class UserListAPIView(ListAPIView):
     Список пользователей
     """
     queryset = User.objects.all()
-    #permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminUser]
 
     def get_serializer_class(self):
         """
@@ -28,7 +28,7 @@ class UserRetrieveAPIView(RetrieveAPIView):
     Получение пользователя
     """
     queryset = User.objects.all()
-    #permission_classes = [IsAuthenticated]
+    permission_classes = [IsCurrentUser]
 
     def get_serializer_class(self):
         """
@@ -45,9 +45,9 @@ class UserUpdateAPIView(UpdateAPIView):
     """
     Обновление пользователя
     """
-    serializer_class = UserSerializer
+    serializer_class = UserCreateSerializer
     queryset = User.objects.all()
-    #permission_classes = [IsCurrentUser | IsAdminUser]
+    permission_classes = [IsCurrentUser | IsAdminUser]
 
 
 class UserDestroyAPIView(DestroyAPIView):
@@ -56,7 +56,7 @@ class UserDestroyAPIView(DestroyAPIView):
     """
     serializer_class = UserSerializer
     queryset = User.objects.all()
-    #permission_classes = [IsCurrentUser | IsAdminUser]
+    permission_classes = [IsCurrentUser | IsAdminUser]
 
 
 class UserCreateAPIView(CreateAPIView):
@@ -69,4 +69,3 @@ class UserCreateAPIView(CreateAPIView):
         user = serializer.save()
         user.set_password(user.password) # Хеширование пароля
         user.save()
-
