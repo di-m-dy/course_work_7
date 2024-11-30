@@ -63,6 +63,7 @@ class Report(models.Model):
         verbose_name='Привычка',
         related_name='reports'
     )
+    next_send = models.DateTimeField(verbose_name='Дата следующей отправки уведомления', null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     is_success = models.BooleanField(verbose_name='Выполнено')
     report = models.TextField(verbose_name='Отчет', null=True, blank=True)

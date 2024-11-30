@@ -14,6 +14,7 @@ from datetime import timedelta
 from pathlib import Path
 
 import dotenv
+import pytz
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'rest_framework_simplejwt',
     'django_filters',
+    'django_celery_beat'
 ]
 
 MIDDLEWARE = [
@@ -121,6 +123,7 @@ AUTH_PASSWORD_VALIDATORS = [
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
+ZONE = pytz.timezone(TIME_ZONE)
 
 USE_I18N = True
 
@@ -154,4 +157,19 @@ SIMPLE_JWT = {
     "UPDATE_LAST_LOGIN": True,
 }
 
-TG_TOKEN = os.getenv('TG_ID')
+TG_TOKEN = os.getenv('TG_TOKEN')
+
+# Celery Configuration Options
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL')
+SELERY_RESULT_BACKEND = os.getenv('SELERY_RESULT_BACKEND')
+
+CELERY_BEAT_SCHEDULE = {
+    'task-check-habits': {
+        'task': 'habits.tasks.check_habits',
+        'schedule': timedelta(minutes=1),
+    },
+}

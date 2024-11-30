@@ -5,18 +5,32 @@ from habits.validators import LinkedHabitRemunerationValidator, UsefulHabitRequi
 
 
 class HabitNiceSerializer(ModelSerializer):
+    """
+    Сериализатор для связанной привычки
+    """
+
     class Meta:
         model = Habit
         fields = ('action', 'place', 'is_public')
 
+
 class HabitSerializer(ModelSerializer):
+    """
+    Сериализатор для привычки
+    """
+
     linked_habit = HabitNiceSerializer()
 
     class Meta:
         model = Habit
         fields = '__all__'
 
+
 class HabitCreateSerializer(ModelSerializer):
+    """
+    Сериализатор для создания привычки
+    """
+
     class Meta:
         model = Habit
         fields = (
@@ -37,6 +51,30 @@ class HabitCreateSerializer(ModelSerializer):
                 remuneration_field='remuneration'
             ),
             UsefulHabitRequiredFields(*fields),
+            TimeToDoneValidator(time_to_done_field='time_to_done')
+        ]
+
+
+class HabitUpdateSerializer(ModelSerializer):
+    """
+    Сериализатор для обновления привычки
+    """
+
+    class Meta:
+        model = Habit
+        fields = (
+            'id',
+            'action',
+            'place',
+            'date_time',
+            'is_nice_habit',
+            'linked_habit',
+            'period',
+            'remuneration',
+            'time_to_done',
+            'is_public'
+        )
+        validators = [
             TimeToDoneValidator(time_to_done_field='time_to_done')
         ]
 

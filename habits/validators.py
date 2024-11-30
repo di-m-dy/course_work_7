@@ -28,6 +28,7 @@ class UsefulHabitRequiredFields:
         "is_public": false
     Проверка чтобы связанная привычка не имела связанных привычек и поощрения
     """
+
     def __init__(self, *args):
         self.fields = args
 
@@ -45,14 +46,16 @@ class UsefulHabitRequiredFields:
         if value.get('is_nice_habit') and (value.get('linked_habit') or value.get('remuneration')):
             raise ValidationError(f"Связанная приятная привычка не может иметь связанные привычки или поощрение")
 
+
 class TimeToDoneValidator:
     """
     Время выполнения должно быть не больше 120 секунд (поле: time_to_done)
     """
+
     def __init__(self, time_to_done_field):
         self.time_to_done_field = time_to_done_field
 
     def __call__(self, value):
-        if value.get(self.time_to_done_field) > 120:
+        if value.get(self.time_to_done_field) and value.get(self.time_to_done_field) > 120:
             raise ValidationError("Время выполнения привычки не может быть дольше 2 минут (обратите внимание, что поле "
                                   "заполняется в секундах - таким образом, значение должно быть не больше 120)")

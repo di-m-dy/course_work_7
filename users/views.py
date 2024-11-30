@@ -67,5 +67,5 @@ class UserCreateAPIView(CreateAPIView):
 
     def perform_create(self, serializer):
         user = serializer.save()
-        user.set_password(user.password) # Хеширование пароля
+        user.set_password(user.password)  # Хеширование пароля
         user.save()
