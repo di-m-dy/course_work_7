@@ -8,3 +8,5 @@ POSTGRES_USER="postgres"
 CELERY_BROKER_URL="redis://redis:6379"
 CELERY_RESULT_BACKEND="redis://redis:6379"
 TG_TOKEN=your_telegram_bot_token
+SERVER_HOST=your_server_host
+SERVER_URL=your_server_url

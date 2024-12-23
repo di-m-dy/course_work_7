@@ -34,35 +34,43 @@
 * redis==5.2.0
 * requests==2.32.3
 
+### Установка Docker на сервер (Ubuntu 20.04)
+1. Установите необходимые пакеты
+```shell
+sudo apt update
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+```
+2. Добавьте GPG ключ Docker
+```shell
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+```
+3. Добавьте репозиторий Docker
+```shell
+echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+```
+4. Установите Docker
+```shell
+sudo apt update
+sudo apt install docker-ce docker-ce-cli containerd.io
+```
+5. Добавьте своего пользователя в группу docker
+```shell
+sudo usermod -aG docker $USER
+```
+6. Перезапустите Docker
+```shell
+sudo systemctl restart docker
+```
 
-### Установка
-1. Клонируйте репозиторий 
+### Установка проекта
+1. Клонируйте репозиторий
+2. Скопируйте файл env_template в .env и заполните своими данными
 
-2. Создайте виртуальное окружение
-```shell 
-python -m venv venv
-```
-3. Установите зависимости из файла requirements.txt
+### Запуск проекта
+1. Перейдите в папку проекта
+2. Выполните команду
 ```shell
-pip install -r requirements.txt
-```
-4. Скоипруйте файл env_template в .env и укажите свои переменные окружения
-5. Выполните миграции
-```shell
-python manage.py migrate
-```
-6. Запустите redis-server
-```shell
-redis-server
-```
-7. Запустите celery worker и celery beat
-```shell
-celery -A config worker -l info
-celery -A config beat -l info
-```
-8. Запустите сервер
-```shell
-python manage.py runserver
+docker-compose up -d --build
 ```
 
 ### Документация
